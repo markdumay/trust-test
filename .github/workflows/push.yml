@@ -36,7 +36,7 @@ jobs:
           mkdir -p ~/.docker/trust/private
           echo "$DOCKER_TRUST_SIGNER_KEY" > ~/.docker/trust/private/$DOCKER_TRUST_SIGNER_ID.key
           echo "$DOCKER_TRUST_REPOSITORY_KEY" > ~/.docker/trust/private/$DOCKER_TRUST_REPOSITORY_ID.key
-          echo "DOCKER_CONTENT_TRUST=1" >> $GITHUB_ENV
+          echo "DOCKER_CONTENT_TRUST=0" >> $GITHUB_ENV
           echo "DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=$DOCKER_TRUST_REPOSITORY_PASSPHASE" >> $GITHUB_ENV
         env:
           DOCKER_TRUST_SIGNER_ID: ${{ secrets.DOCKER_TRUST_SIGNER_ID }}
