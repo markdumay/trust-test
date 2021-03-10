@@ -2,8 +2,10 @@ name: push
 
 on:
   push:
-    tags:        
-      - '**'           # Push events to every tag including hierarchical tags like v1.0/beta
+    branches: [ main ]
+#   push:
+#     tags:        
+#       - '**'           # Push events to every tag including hierarchical tags like v1.0/beta
 
 env:
   DOCKER_REGISTRY: docker.io
@@ -52,4 +54,7 @@ jobs:
         run: |
           ./dbm/dbm.sh prod build --push
           echo "DOCKER_CONTENT_TRUST=1" >> $GITHUB_ENV
-          docker trust sign markdumay/trust:0.2.3
+          docker tag trust markdumay/trust:0.2.3
+          #docker trust sign $IMAGE_ID:$VERSION
+          docker push markdumay/trust:0.2.3
+          #docker trust sign markdumay/trust:0.2.3
