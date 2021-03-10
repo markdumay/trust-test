@@ -33,12 +33,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+#       - name: Build and push development images
+#         run: ./dbm/dbm.sh dev build --push
+
+      - name: Build and push production images
+        run: ./dbm/dbm.sh prod build --push
+
       - name: Set up Docker Trust
         run: |
           mkdir -p ~/.docker/trust/private
           echo "$DOCKER_TRUST_SIGNER_KEY" > ~/.docker/trust/private/$DOCKER_TRUST_SIGNER_ID.key
           echo "$DOCKER_TRUST_REPOSITORY_KEY" > ~/.docker/trust/private/$DOCKER_TRUST_REPOSITORY_ID.key
-          echo "DOCKER_CONTENT_TRUST=0" >> $GITHUB_ENV
+          echo "DOCKER_CONTENT_TRUST=1" >> $GITHUB_ENV
           echo "DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=$DOCKER_TRUST_REPOSITORY_PASSPHASE" >> $GITHUB_ENV
         env:
           DOCKER_TRUST_SIGNER_ID: ${{ secrets.DOCKER_TRUST_SIGNER_ID }}
@@ -47,14 +53,8 @@ jobs:
           DOCKER_TRUST_REPOSITORY_KEY: ${{ secrets.DOCKER_TRUST_REPOSITORY_KEY }}
           DOCKER_TRUST_REPOSITORY_PASSPHASE: ${{ secrets.DOCKER_TRUST_REPOSITORY_PASSPHASE }}
 
-#       - name: Build and push development images
-#         run: ./dbm/dbm.sh dev build --push
-
-      - name: Build and push production images
+      - name: Retag production images
         run: |
-          ./dbm/dbm.sh prod build --push
-          echo "DOCKER_CONTENT_TRUST=1" >> $GITHUB_ENV
-          docker tag markdumay/trust:0.2.3 markdumay/trust:0.2.3
+          docker tag markdumay/trust:0.2.4 markdumay/trust:0.2.4
           #docker trust sign $IMAGE_ID:$VERSION
-          docker push markdumay/trust:0.2.3
-          #docker trust sign markdumay/trust:0.2.3
+          docker push markdumay/trust:0.2.4
