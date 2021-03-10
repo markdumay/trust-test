@@ -1,0 +1,15 @@
+# Copyright © 2021 Mark Dumay. All rights reserved.
+# Use of this source code is governed by The MIT License (MIT) that can be found in the LICENSE file.
+
+services:
+  trust-test:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+      args:
+        BUILD_VERSION: "${BUILD_VERSION}"
+        BUILD_UID: "${BUILD_UID}"
+        BUILD_GID: "${BUILD_GID}"
+        BUILD_FLAGS: --add-shell
+        BUILD_TARGET: test
+        ALPINE_VERSION: "${ALPINE_VERSION}"
