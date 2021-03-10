@@ -54,7 +54,7 @@ jobs:
         run: |
           ./dbm/dbm.sh prod build --push
           echo "DOCKER_CONTENT_TRUST=1" >> $GITHUB_ENV
-          docker tag trust markdumay/trust:0.2.3
+          docker tag markdumay/trust:0.2.3 markdumay/trust:0.2.3
           #docker trust sign $IMAGE_ID:$VERSION
           docker push markdumay/trust:0.2.3
           #docker trust sign markdumay/trust:0.2.3
