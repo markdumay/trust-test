@@ -49,4 +49,7 @@ jobs:
 #         run: ./dbm/dbm.sh dev build --push
 
       - name: Build and push production images
-        run: ./dbm/dbm.sh prod build --push
+        run: |
+          ./dbm/dbm.sh prod build --push
+          echo "DOCKER_CONTENT_TRUST=1" >> $GITHUB_ENV
+          docker trust sign markdumay/trust:0.2.3
