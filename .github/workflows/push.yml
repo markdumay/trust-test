@@ -26,6 +26,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set up Docker Trust
+        run: |
+          mkdir -p ~/.docker/trust/private
+          echo "${{ secrets.DOCKER_TRUST_SIGNER_KEY }}" > ~/.docker/trust/private/$DOCKER_TRUST_SIGNER_ID.key
+          echo "${{ secrets.DOCKER_TRUST_REPOSITORY_KEY }}" > ~/.docker/trust/private/$DOCKER_TRUST_REPOSITORY_ID.key
+          echo "DOCKER_CONTENT_TRUST=1" >> $GITHUB_ENV
+          echo "DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=${{ secrets.DOCKER_TRUST_SIGNER_PASSPHASE }}" >> $GITHUB_ENV
+        env:
+          DOCKER_TRUST_SIGNER_ID: "${{ secrets.DOCKER_TRUST_SIGNER_ID }}"
+          DOCKER_TRUST_REPOSITORY_ID: "${{ secrets.DOCKER_TRUST_REPOSITORY_ID }}"
+
       - name: Build and push development images
         run: ./dbm/dbm.sh dev build --push
 
