@@ -47,14 +47,15 @@ generate_delegation_key() {
 
 # import a private delegation key into the local trust store
 import_delegation_key() {
-    user="$1"
+    key="$1"
     passphrase="$2"
-    [ -n "${user}" ] || return 1
-    [ -z "${passphrase}" ] && passphrase=$(openssl rand -base64 32)
+    [ -n "${key}" ] || return 1
+    [ -z "$2" ] && passphrase=$(openssl rand -base64 32) || passphrase="$2"
+    user=$(basename "${key}" | sed 's/\(.*\)\..*/\1/') # derive user name from key file without extension
     
     # import the private key using the specified passphrase
     export NOTARY_DELEGATION_PASSPHRASE="${passphrase}"
-    notary key import "${user}".key --role "${user}" || return 1
+    notary key import "${key}" --role "${user}" || return 1
 
     # return the passphrase when successful
     echo "${passphrase}"
@@ -88,7 +89,7 @@ sign_image_tag() {
 # delegate_path="${WORKING_DIR}/${DELEGATION_USER}"
 # owner_path="${WORKING_DIR}/${OWNER}"
 
-# $1 - user name
+# $1 - key path
 # $2 - repository
 init_notary_config
 passphrase=$(import_delegation_key "$1") || "Cannot import delegation key"
