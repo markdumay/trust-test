@@ -81,9 +81,9 @@ sign_image_tag() {
     image_tag="$1"
     passphrase="$2"
 
+    docker tag "${image_tag}" "${image_tag}"
     export DOCKER_CONTENT_TRUST=1
     export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE="${passphrase}"
-    docker tag "${image_tag}" "${image_tag}"
     docker push "${image_tag}" || return 1
 
     return 0
