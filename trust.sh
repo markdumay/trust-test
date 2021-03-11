@@ -55,7 +55,6 @@ import_delegation_key() {
     
     # import the private key using the specified or random passphrase
     export NOTARY_DELEGATION_PASSPHRASE="${passphrase}"
-    export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE="${passphrase}"
     notary key import "${key}" --role user || return 1
     # notary key import "${key}" --role "${user}" || return 1
 
@@ -80,8 +79,10 @@ authorize_delegation_user() {
 # signs a locally-built Docker image in the remote repository
 sign_image_tag() {
     image_tag="$1"
+    passphrase="$2"
 
     export DOCKER_CONTENT_TRUST=1
+    export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE="${passphrase}"
     docker tag "${image_tag}" "${image_tag}"
     docker push "${image_tag}" || return 1
 
@@ -96,4 +97,4 @@ sign_image_tag() {
 init_notary_config
 passphrase=$(import_delegation_key "$1" '') || "Cannot import delegation key"
 # sign_image_tag 'markdumay/trust:0.2.4'
-sign_image_tag "$2"
+sign_image_tag "$2" "${passphrase}"
