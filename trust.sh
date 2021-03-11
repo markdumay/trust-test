@@ -77,7 +77,7 @@ authorize_delegation_user() {
 
 # signs a locally-built Docker image in the remote repository
 sign_image_tag() {
-    image_tag="$1:$2"
+    image_tag="$1"
 
     export DOCKER_CONTENT_TRUST=1
     docker tag "${image_tag}" "${image_tag}"
