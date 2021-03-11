@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eux
 
 readonly TRUST_DIR="${HOME}/.docker/trust"
 readonly DOCKER_REGISTRY='docker.io'
