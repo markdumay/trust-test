@@ -53,8 +53,9 @@ import_delegation_key() {
     [ -z "$2" ] && passphrase=$(openssl rand -base64 32) || passphrase="$2"
     user=$(basename "${key}" | sed 's/\(.*\)\..*/\1/') # derive user name from key file without extension
     
-    # import the private key using the specified passphrase
+    # import the private key using the specified or random passphrase
     export NOTARY_DELEGATION_PASSPHRASE="${passphrase}"
+    export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE="${passphrase}"
     notary key import "${key}" --role "${user}" || return 1
 
     # return the passphrase when successful
