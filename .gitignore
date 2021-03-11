@@ -9,3 +9,6 @@ secrets/
 
 # Visual Studio Code configuration
 .vscode
+
+# Local keys for testing
+keys
