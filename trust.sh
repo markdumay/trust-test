@@ -86,7 +86,7 @@ sign_image_tag() {
     docker tag "${image_tag}" "${image_tag}"
     docker push "${image_tag}" || return 1
 
-    return 1
+    return 0
 }
 
 # delegate_path="${WORKING_DIR}/${DELEGATION_USER}"
