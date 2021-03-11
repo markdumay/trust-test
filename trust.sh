@@ -55,8 +55,8 @@ import_delegation_key() {
     
     # import the private key using the specified or random passphrase
     export NOTARY_DELEGATION_PASSPHRASE="${passphrase}"
-    notary key import "${key}" --role user || return 1
-    # notary key import "${key}" --role "${user}" || return 1
+    # notary key import "${key}" --role user || return 1
+    notary key import "${key}" --role "${user}" || return 1
 
     # return the passphrase when successful
     echo "${passphrase}"
