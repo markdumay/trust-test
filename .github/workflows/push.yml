@@ -53,11 +53,12 @@ jobs:
 #           DOCKER_TRUST_REPOSITORY_KEY: ${{ secrets.DOCKER_TRUST_REPOSITORY_KEY }}
 #           DOCKER_TRUST_REPOSITORY_PASSPHASE: ${{ secrets.DOCKER_TRUST_REPOSITORY_PASSPHASE }}
 
-      - name: Sign production images
+      - name: Set up Docker Trust
         run: |
-          echo $DOCKER_TRUST_SIGNER_KEY_PEM > ~/$DOCKER_TRUST_SIGNER.key
+          echo $DOCKER_TRUST_SIGNER_KEY_PEM > ~/github.key
           sudo apt-get install -qq -o=Dpkg::Use-Pty=0 notary
-          ./trust.sh ~/$DOCKER_TRUST_SIGNER.key markdumay/trust:0.2.4
         env:
-          DOCKER_TRUST_SIGNER: 'github'
           DOCKER_TRUST_SIGNER_KEY_PEM: ${{ secrets.DOCKER_TRUST_SIGNER_KEY_PEM }}
+
+      - name: Sign production images
+        run: ./trust.sh ~/github.key markdumay/trust:0.2.4
