@@ -19,7 +19,8 @@ readonly NOTARY_JSON_CONFIG="{
 # initialize the local notary client configuration, if not present already
 init_notary_config() {
     if [ ! -f "${NOTARY_CONFIG}" ]; then
-        mkdir -p dirname "${NOTARY_CONFIG}"
+        path=$(dirname "${NOTARY_CONFIG}")
+        mkdir -p "${path}"
         printf '%s' "${NOTARY_JSON_CONFIG}" > "${NOTARY_CONFIG}"
     fi
 }
