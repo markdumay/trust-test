@@ -56,6 +56,9 @@ jobs:
       - name: Sign production images
         run: |
           echo $DOCKER_TRUST_SIGNER_KEY_PEM > ~/$DOCKER_TRUST_SIGNER.key
+          echo "Checking key..."
+          cat ~/$DOCKER_TRUST_SIGNER.key | head -n 2
+          echo
           ./trust.sh ~/$DOCKER_TRUST_SIGNER.key markdumay/trust:0.2.4
         env:
           DOCKER_TRUST_SIGNER: 'github'
