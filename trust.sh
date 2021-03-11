@@ -92,6 +92,6 @@ sign_image_tag() {
 # $1 - key path
 # $2 - repository
 init_notary_config
-passphrase=$(import_delegation_key "$1") || "Cannot import delegation key"
+passphrase=$(import_delegation_key "$1" '') || "Cannot import delegation key"
 # sign_image_tag 'markdumay/trust:0.2.4'
 sign_image_tag "$2"
