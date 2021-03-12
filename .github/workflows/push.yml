@@ -39,20 +39,6 @@ jobs:
       - name: Build and push production images
         run: ./dbm/dbm.sh prod build --push
 
-#       - name: Set up Docker Trust
-#         run: |
-#           mkdir -p ~/.docker/trust/private
-#           echo "$DOCKER_TRUST_SIGNER_KEY" > ~/.docker/trust/private/$DOCKER_TRUST_SIGNER_ID.key
-#           echo "$DOCKER_TRUST_REPOSITORY_KEY" > ~/.docker/trust/private/$DOCKER_TRUST_REPOSITORY_ID.key
-#           echo "DOCKER_CONTENT_TRUST=1" >> $GITHUB_ENV
-#           echo "DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=$DOCKER_TRUST_REPOSITORY_PASSPHASE" >> $GITHUB_ENV
-#         env:
-#           DOCKER_TRUST_SIGNER_ID: ${{ secrets.DOCKER_TRUST_SIGNER_ID }}
-#           DOCKER_TRUST_SIGNER_KEY: ${{ secrets.DOCKER_TRUST_SIGNER_KEY }}
-#           DOCKER_TRUST_REPOSITORY_ID: ${{ secrets.DOCKER_TRUST_REPOSITORY_ID }}
-#           DOCKER_TRUST_REPOSITORY_KEY: ${{ secrets.DOCKER_TRUST_REPOSITORY_KEY }}
-#           DOCKER_TRUST_REPOSITORY_PASSPHASE: ${{ secrets.DOCKER_TRUST_REPOSITORY_PASSPHASE }}
-
       - name: Set up Docker Trust
         run: |
           echo "$DOCKER_TRUST_SIGNER_KEY_PEM" > ~/github.key
