@@ -55,7 +55,6 @@ import_delegation_key() {
     
     # import the private key using the specified or random passphrase
     export NOTARY_DELEGATION_PASSPHRASE="${passphrase}"
-    # notary key import "${key}" --role user || return 1
     notary key import "${key}" --role "${user}" || return 1
 
     # return the passphrase when successful
@@ -84,7 +83,6 @@ sign_image_tag() {
     docker tag "${image_tag}" "${image_tag}"
     export DOCKER_CONTENT_TRUST=1
     export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE="${passphrase}"
-    docker login
     docker push "${image_tag}" || return 1
 
     return 0
