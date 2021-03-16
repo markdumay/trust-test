@@ -20,6 +20,7 @@ ENV BUILD_VERSION "${BUILD_VERSION}"
 
 # Copy helper scripts and test data
 COPY dbm/utils/harden_alpine.sh /usr/local/sbin/
+COPY docker-entrypoint.sh /usr/local/sbin/
 COPY message.txt /
 
 # Harden the image and assign access rights for key files and folders
@@ -33,6 +34,7 @@ RUN set -eu; \
     apk --no-cache add -f grep shadow; \
     rm -rf /var/cache/apk/* /tmp; \
     chmod +x /usr/local/sbin/harden_alpine.sh; \
+    chmod +x /usr/local/sbin/docker-entrypoint.sh; \
     /usr/local/sbin/harden_alpine.sh harden \
         -n "${BUILD_USER}" \
         -u "${BUILD_UID}" \
@@ -44,4 +46,4 @@ RUN set -eu; \
 ARG BUILD_USER
 USER "${BUILD_USER}"
 
-ENTRYPOINT ["cat", "/message.txt"]
+ENTRYPOINT ["docker-entrypoint.sh"]
